@@ -3,14 +3,13 @@
     .add-form-container {
       margin-top: 20px;
     }
-
 </style>
 
 <template>
     <div class="container">
         <div class="row exclamations-viewer">
             <div class="col-md-4">
-                <Exclamation-List :user='user' title='All Exclamations' :exclamations='exclamations'></Exclamation-List>
+                <Exclamation-List :user='user' :onRemove='onExclamationRemoved' title='All Exclamations' :exclamations='exclamations'></Exclamation-List>
             </div>
         </div>
     </div>
@@ -40,6 +39,12 @@
       components: {
         ExclamationList,
       },
+      methods: {
+          onExclamationRemoved(id) {
+            axios.delete(`/api/exclamations/${id}`).then(() => {
+             this.exclamations = this.exclamations.filter(e => e.id !== id);
+            });
+        },
+      },
     };
-
 </script>

@@ -28,11 +28,11 @@
 
 <template>
     <div class="exclamation-list">
-        <h1></h1>
+        <h1>{{title}}</h1>
         <div class="exclamation" v-for='exclamation in exclamations' :key='exclamation.id'>
             <p class="user">{{exclamation.user}}</p>
             <p class="text">{{exclamation.text}}</p>
-            <button v-if='canDelete(exclamation.user)' class="btn btn-danger">Remove</button>
+            <button v-if='canDelete(exclamation.user)' class="btn btn-danger" v-on:click="onRemoveClicked(exclamation.id)">Remove</button>
         </div>
     </div>
 </template>
@@ -51,10 +51,16 @@
         user: {
           default: {},
         },
+         onRemove: {
+          default: () => {},
+        },
       },
       methods: {
         canDelete(user) {
           return this.user.scopes.includes('delete') || this.user.username === user;
+        },
+        onRemoveClicked(id) {
+          this.onRemove(id);
         },
       },
     };
